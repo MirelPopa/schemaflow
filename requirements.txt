@@ -2,3 +2,6 @@ SQLAlchemy
 pydantic
 fastapi
 alembic
+jsonschema
+uvicorn
+psycopg2-binary

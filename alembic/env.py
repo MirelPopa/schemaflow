@@ -22,6 +22,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.db.base import Base
 from app.db.session import engine
+import app.db.base_models  # noqa: F401  # required for Alembic model discovery
 
 target_metadata = Base.metadata
 
