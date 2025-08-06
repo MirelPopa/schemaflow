@@ -1,0 +1,57 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: schemaflow_web
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/schemaflow
+      REDIS_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: schemaflow_worker
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/schemaflow
+      REDIS_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: schemaflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d schemaflow"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+
+volumes:
+  pg_data:

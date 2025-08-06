@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from app.schemas.team import TeamCreate
-from app.repositories.team_repo import TeamRepository
+
 from app.models.team import Team
+from app.repositories.team_repo import TeamRepository
+from app.schemas.team import TeamCreate
 
 
 class TeamService:

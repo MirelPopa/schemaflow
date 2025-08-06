@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
+
 from app.models.contract import Contract
-from app.schemas.contract import ContractCreate
 from app.repositories.contract_repo import ContractRepository
+from app.schemas.contract import ContractCreate
 
 
 class ContractService:

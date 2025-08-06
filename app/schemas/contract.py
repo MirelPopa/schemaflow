@@ -1,7 +1,8 @@
-from pydantic import BaseModel, field_validator
 from datetime import datetime
 from typing import Any
+
 from jsonschema import Draft7Validator, SchemaError
+from pydantic import BaseModel, field_validator
 
 
 class ContractBase(BaseModel):
@@ -16,7 +17,6 @@ class ContractBase(BaseModel):
         except SchemaError as e:
             raise ValueError(f"Invalid JSON Schema: {e.message}")
         return schema
-
 
 
 class ContractCreate(ContractBase):

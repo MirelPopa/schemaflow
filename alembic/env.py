@@ -1,7 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 
@@ -14,15 +13,16 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+import os
 # add your model's MetaData object here
 # for 'autogenerate' support
 import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+import app.db.base_models  # noqa: F401  # required for Alembic model discovery
 from app.db.base import Base
 from app.db.session import engine
-import app.db.base_models  # noqa: F401  # required for Alembic model discovery
 
 target_metadata = Base.metadata
 
@@ -66,9 +66,7 @@ def run_migrations_online() -> None:
     connectable = engine
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

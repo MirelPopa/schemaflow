@@ -1,6 +1,7 @@
 from datetime import datetime
-from pydantic import BaseModel
 from typing import Any, Optional
+
+from pydantic import BaseModel
 
 
 class SubmissionBase(BaseModel):

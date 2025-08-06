@@ -5,3 +5,5 @@ alembic
 jsonschema
 uvicorn
 psycopg2-binary
+celery
+redis
