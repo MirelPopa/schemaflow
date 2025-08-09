@@ -1,13 +1,13 @@
-from celery import shared_task
 from jsonschema import ValidationError, validate
 from sqlalchemy.orm import Session
 
 from app.db.session import SessionLocal
 from app.models.contract import Contract
 from app.models.submission import Submission
+from worker.celery_worker import celery_app
 
 
-@shared_task
+@celery_app.task(name="validate_submission_task")
 def validate_submission_task(submission_id: int):
     db: Session = SessionLocal()
 

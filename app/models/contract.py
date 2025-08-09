@@ -13,7 +13,10 @@ class Contract(Base):
     json_schema = Column(JSON, nullable=False)
     active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    callback_url = Column(String, nullable=True)
 
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)
 
     team = relationship("Team", backref="contracts")
+
+from app.models.team import Team  # noqa
